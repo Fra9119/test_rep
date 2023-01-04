@@ -1,0 +1,53 @@
+function constructors() {
+
+  var URL_LIMIT = "http://ergast.com/api/f1/constructors.json"
+
+  console.log('URL_STRING ' + URL_LIMIT);
+
+  //CALL API
+  var limit_response = UrlFetchApp .fetch(URL_LIMIT);
+  var limit_json = limit_response.getContentText();
+  var limit_data = JSON.parse(limit_json);
+  
+  var limits = [];
+  
+limits=limit_data.MRData.total;
+
+
+ // DECLARE SHEET
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var mainSheet = ss.getSheetByName("constructors");
+  
+  
+  //CLEAR QUESTION AND ANSWER
+  mainSheet.getRange('A2:DC1000').clear();
+  
+  var URL_STRING = "http://ergast.com/api/f1/constructors.json?limit="+ limits;
+
+  console.log('URL_STRING ' + URL_STRING);
+
+  //CALL API
+  var response = UrlFetchApp .fetch(URL_STRING);
+  var json = response.getContentText();
+  var data = JSON.parse(json);
+
+  var constructors = [];
+
+  //GET DRIVERS
+  for (var i = 0; i < data.MRData.ConstructorTable.Constructors.length; i++) 
+  { 
+    var constructors_Array = data.MRData.ConstructorTable.Constructors; 
+
+      //STORING DRIVERS
+    constructors.push(constructors_Array[i].constructorId);
+    constructors.push(constructors_Array[i].name);
+    constructors.push(constructors_Array[i].nationality);
+  
+    mainSheet.getRange(2 + i, 1).setValue([constructors_Array[i].constructorId]);
+    mainSheet.getRange(2 + i, 2).setValue([constructors_Array[i].name]);
+    mainSheet.getRange(2 + i, 3).setValue([constructors_Array[i].nationality]);
+
+  }
+     
+
+}
