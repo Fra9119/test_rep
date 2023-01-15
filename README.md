@@ -23,5 +23,5 @@ This is how retrive data from Ergast API, organize in 4 tables. These tables are
 * Looker Studio
 
 
-#Licence 
+# Licence 
 This project is licensed under the MIT License. For more information, see the LICENSE file.
